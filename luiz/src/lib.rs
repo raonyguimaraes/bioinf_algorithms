@@ -3,6 +3,7 @@ use std::iter::FromIterator;
 
 /* Mirror the product(repeat=n) iter from Python itertools
     https://github.com/python/cpython/blob/234531b4462b20d668762bd78406fd2ebab129c9/Modules/itertoolsmodule.c#L2095
+    https://dev.to/naufraghi/procedural-macro-in-rust-101-k3f
 pub fn product<I, T>(iter: I, repeat: usize) -> Vec<T>
 where
     I: Iterator<Item = T>,
