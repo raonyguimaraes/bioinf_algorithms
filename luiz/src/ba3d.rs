@@ -7,11 +7,10 @@ use bioinformatics_algorithms::{composition, overlap};
 
 pub fn de_bruijn(k: usize, text: &str) -> HashMap<String, Vec<String>> {
     let kmers: Vec<&str> = composition(k - 1, text).collect();
-    let edges = overlap(&kmers);
 
     let mut dbg = HashMap::default();
 
-    for (kmer, neighbor) in edges {
+    for (kmer, neighbor) in overlap(&kmers) {
         let neighbors = dbg.entry(kmer).or_insert(Vec::with_capacity(4));
         neighbors.push(neighbor);
     }
