@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::env;
 use std::error::Error;
 use std::fs;
 
@@ -10,18 +11,20 @@ pub fn de_bruijn(k: usize, text: &str) -> HashMap<String, Vec<String>> {
 
     let mut dbg = HashMap::default();
 
-    edges
-        .into_iter()
-        .map(|(kmer, neighbor)| {
-            dbg.entry(kmer).or_insert(Vec::new()).push(neighbor);
-        })
-        .count();
+    for (kmer, neighbor) in edges {
+        let neighbors = dbg.entry(kmer).or_insert(Vec::with_capacity(4));
+        neighbors.push(neighbor);
+    }
 
     dbg
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let data = fs::read_to_string("data/rosalind_ba3d.txt")?;
+    let input: String = env::args()
+        .nth(1)
+        .unwrap_or("data/rosalind_ba3d.txt".into());
+    let data = fs::read_to_string(input)?;
+
     let mut lines = data.lines();
     let k = lines.next().unwrap().parse()?;
     let text: String = lines.next().unwrap().into();
