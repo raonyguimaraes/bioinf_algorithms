@@ -68,4 +68,8 @@ path = "src/ba3b.rs"
 name = "ba3c"
 path = "src/ba3c.rs"
 
+[[bin]]
+name = "ba3d"
+path = "src/ba3d.rs"
+
 [dependencies]

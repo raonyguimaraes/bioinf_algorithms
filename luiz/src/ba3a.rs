@@ -3,6 +3,7 @@ use std::env;
 use std::error::Error;
 use std::fs;
 
+// This function is also defined in lib.rs
 pub fn composition(k: usize, text: &[u8]) -> HashSet<String> {
     text.windows(k)
         .map(|kmer| String::from_utf8_lossy(kmer).into_owned())

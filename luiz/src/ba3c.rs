@@ -3,6 +3,7 @@ use std::env;
 use std::error::Error;
 use std::fs;
 
+// This function is also defined in lib.rs
 pub fn overlap(text: &[&str]) -> HashSet<(String, String)> {
     let mut adj_list = HashMap::with_capacity(text.len());
 
