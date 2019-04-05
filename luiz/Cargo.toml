@@ -72,4 +72,9 @@ path = "src/ba3c.rs"
 name = "ba3d"
 path = "src/ba3d.rs"
 
+[dev-dependencies]
+assert_cmd = "0.11.1"
+predicates = "1.0.0"
+tempfile = "3.0.7"
+
 [dependencies]

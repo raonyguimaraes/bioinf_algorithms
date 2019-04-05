@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::env;
 use std::error::Error;
 use std::fs;
 
@@ -22,29 +21,7 @@ pub fn de_bruijn(k: usize, text: &str) -> HashMap<String, Vec<String>> {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    /*
-    let answer: HashMap<String, HashSet<String>> = [
-        ("AAG".into(), HashSet::from_iter(&["AGA".into()])),
-        ("AGA".into(), HashSet::from_iter(&["GAT".into()])),
-        ("ATT".into(), HashSet::from_iter(&["TTC".into()])),
-        ("CTA".into(), HashSet::from_iter(&["TAC".into()])),
-        ("CTC".into(), HashSet::from_iter(&["TCT".into()])),
-        ("GAT".into(), HashSet::from_iter(&["ATT".into()])),
-        (
-            "TCT".into(),
-            HashSet::from_iter(&["CTA".into(), "CTC".into()]),
-        ),
-        ("TTC".into(), HashSet::from_iter(&["TCT".into()])),
-    ]
-    .iter()
-    .cloned()
-    .collect();
-
-    assert_eq!(de_bruijn(4, "AAGATTCTCTAC"), answer);
-    */
-
-    let input: String = env::args().nth(1).expect("Input data file missing");
-    let data = fs::read_to_string(input)?;
+    let data = fs::read_to_string("data/rosalind_ba3d.txt")?;
     let mut lines = data.lines();
     let k = lines.next().unwrap().parse()?;
     let text: String = lines.next().unwrap().into();
