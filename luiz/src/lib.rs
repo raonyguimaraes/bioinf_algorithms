@@ -63,8 +63,9 @@ pub fn composition<'a>(k: usize, text: &'a str) -> impl Iterator<Item = &'a str>
         .map(|w| str::from_utf8(w).unwrap())
 }
 
-// TODO: avoid the collect() in this method, and return an impl Iterator?
-pub fn overlap(text: &[&str]) -> HashSet<(String, String)> {
+// TODO: avoid creating adj_list, rewrite the loop as iter code and return it
+// before collect?
+pub fn overlap<'a>(text: &'a [&str]) -> impl Iterator<Item = (String, String)> + 'a {
     let mut adj_list = HashMap::with_capacity(text.len());
 
     for kmer in text {
@@ -81,12 +82,9 @@ pub fn overlap(text: &[&str]) -> HashSet<(String, String)> {
         adj_list.insert(kmer, neighbors);
     }
 
-    adj_list
-        .into_iter()
-        .flat_map(move |(node, neighbors)| {
-            neighbors
-                .into_iter()
-                .map(move |neighbor| (node.to_string(), neighbor.to_string()))
-        })
-        .collect()
+    adj_list.into_iter().flat_map(move |(node, neighbors)| {
+        neighbors
+            .into_iter()
+            .map(move |neighbor| (node.to_string(), neighbor.to_string()))
+    })
 }
