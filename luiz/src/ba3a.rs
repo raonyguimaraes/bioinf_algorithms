@@ -11,21 +11,9 @@ pub fn composition(k: usize, text: &[u8]) -> HashSet<String> {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    assert_eq!(
-        composition(5, b"CAATCCAAC"),
-        [
-            "AATCC".into(),
-            "ATCCA".into(),
-            "CAATC".into(),
-            "CCAAC".into(),
-            "TCCAA".into()
-        ]
-        .iter()
-        .cloned()
-        .collect()
-    );
-
-    let input: String = env::args().nth(1).expect("Input data file missing");
+    let input: String = env::args()
+        .nth(1)
+        .unwrap_or("data/rosalind_ba3a.txt".into());
     let data = fs::read_to_string(input)?;
     let mut lines = data.lines();
 
@@ -36,7 +24,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     for kmer in composition(k, text.as_str().as_bytes()) {
         println!("{}", kmer);
     }
-    println!();
 
     Ok(())
 }

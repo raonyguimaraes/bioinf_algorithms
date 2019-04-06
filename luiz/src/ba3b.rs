@@ -11,12 +11,9 @@ pub fn genome_from_path(text: &[&str]) -> String {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    assert_eq!(
-        genome_from_path(&["ACCGA", "CCGAA", "CGAAG", "GAAGC", "AAGCT"]),
-        "ACCGAAGCT"
-    );
-
-    let input: String = env::args().nth(1).expect("Input data file missing");
+    let input: String = env::args()
+        .nth(1)
+        .unwrap_or("data/rosalind_ba3b.txt".into());
     let data = fs::read_to_string(input)?;
     let lines: Vec<&str> = data.lines().collect();
 

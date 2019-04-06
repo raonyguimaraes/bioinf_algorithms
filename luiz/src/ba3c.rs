@@ -32,20 +32,9 @@ pub fn overlap(text: &[&str]) -> HashSet<(String, String)> {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    assert_eq!(
-        overlap(&["ATGCG", "GCATG", "CATGC", "AGGCA", "GGCAT"]),
-        [
-            ("AGGCA".into(), "GGCAT".into()),
-            ("CATGC".into(), "ATGCG".into()),
-            ("GCATG".into(), "CATGC".into()),
-            ("GGCAT".into(), "GCATG".into())
-        ]
-        .iter()
-        .cloned()
-        .collect()
-    );
-
-    let input: String = env::args().nth(1).expect("Input data file missing");
+    let input: String = env::args()
+        .nth(1)
+        .unwrap_or("data/rosalind_ba3c.txt".into());
     let data = fs::read_to_string(input)?;
     let lines: Vec<&str> = data.lines().collect();
 
