@@ -73,6 +73,11 @@ path = "src/ba2c.rs"
 test = false
 
 [[bin]]
+name = "ba2d"
+path = "src/ba2d.rs"
+test = false
+
+[[bin]]
 name = "ba3a"
 path = "src/ba3a.rs"
 test = false

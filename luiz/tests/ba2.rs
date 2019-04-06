@@ -47,3 +47,30 @@ fn ba2c_test() -> Result<(), Box<std::error::Error>> {
 
     Ok(())
 }
+
+#[test]
+fn ba2d_test() -> Result<(), Box<std::error::Error>> {
+    let mut file = NamedTempFile::new()?;
+    writeln!(
+        file,
+        "3 5
+GGCGTTCAGGCA
+AAGAATCAGTCA
+CAAGGAGTTCGC
+CACGTCAATCAC
+CAATAATATTCG"
+    )?;
+
+    let mut cmd = Command::cargo_bin("ba2d")?;
+    cmd.arg(file.path());
+    cmd.assert().success().stdout(
+        "CAG
+CAG
+CAA
+CAA
+CAA
+",
+    );
+
+    Ok(())
+}
