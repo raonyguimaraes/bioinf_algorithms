@@ -91,17 +91,21 @@ pub fn overlap<'a>(text: &'a [&str]) -> impl Iterator<Item = (String, String)> +
 
 pub type Matrix = Vec<Vec<f64>>;
 
+#[inline]
+pub fn nt_to_pos(nt: u8) -> usize {
+    match nt {
+        b'A' => 0,
+        b'C' => 1,
+        b'G' => 2,
+        b'T' => 3,
+        _ => unimplemented!(),
+    }
+}
+
 pub fn kmer_prob(kmer: &[u8], matrix: &Matrix) -> f64 {
     let mut prob = 1.;
     for (i, nt) in kmer.iter().enumerate() {
-        let pos = match nt {
-            b'A' => 0,
-            b'C' => 1,
-            b'G' => 2,
-            b'T' => 3,
-            _ => unimplemented!(),
-        };
-        prob = prob * matrix[pos][i];
+        prob = prob * matrix[nt_to_pos(*nt)][i];
     }
 
     prob
@@ -120,4 +124,60 @@ pub fn profile_most_probable(text: &str, k: usize, matrix: &Matrix) -> String {
     }
 
     String::from_utf8_lossy(most_probable_kmer).into()
+}
+
+#[inline]
+pub fn pos_to_nt(pos: usize) -> u8 {
+    match pos {
+        0 => b'A',
+        1 => b'C',
+        2 => b'G',
+        3 => b'T',
+        _ => unimplemented!(),
+    }
+}
+
+pub fn profile_matrix(motifs: &[String], k: usize) -> Matrix {
+    let mut matrix: Matrix = vec![vec![0.0; k]; 4];
+
+    for i in 0..k {
+        for nt in 0..4 {
+            matrix[nt][i] = motifs
+                .iter()
+                .filter(|motif| motif.as_bytes()[i] == pos_to_nt(nt))
+                .count() as f64
+                / motifs.len() as f64;
+        }
+    }
+
+    matrix
+}
+
+pub fn score(motifs: &[String]) -> u64 {
+    let size = motifs[0].len();
+    let mut common_kmer: String = "".into();
+
+    for i in 0..size {
+        let mut max_freq = 0;
+        let mut pos_freq: HashMap<u8, u64> = HashMap::default();
+
+        for motif in motifs {
+            let nt = motif.as_bytes()[i];
+            let entry = pos_freq.entry(nt).or_insert(0);
+            *entry += 1;
+            max_freq = u64::max(max_freq, *entry);
+        }
+
+        for (nt, freq) in pos_freq {
+            if freq == max_freq {
+                common_kmer.push(nt as char);
+                break;
+            }
+        }
+    }
+
+    motifs
+        .iter()
+        .map(|kmer| hamming(&common_kmer, kmer) as u64)
+        .sum()
 }
