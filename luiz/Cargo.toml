@@ -68,6 +68,11 @@ test = false
 #path = "src/ba2b.rs"
 
 [[bin]]
+name = "ba2c"
+path = "src/ba2c.rs"
+test = false
+
+[[bin]]
 name = "ba3a"
 path = "src/ba3a.rs"
 test = false
