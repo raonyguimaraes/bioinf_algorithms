@@ -5,6 +5,8 @@ use assert_cmd::prelude::*;
 use predicates::str::contains;
 use tempfile::NamedTempFile;
 
+use bioinformatics_algorithms::score;
+
 #[test]
 fn ba2a_test() -> Result<(), Box<std::error::Error>> {
     let mut file = NamedTempFile::new()?;
@@ -98,6 +100,42 @@ ATC
 TTC
 ",
     );
+
+    Ok(())
+}
+
+#[test]
+fn ba2f_test() -> Result<(), Box<std::error::Error>> {
+    let mut file = NamedTempFile::new()?;
+    writeln!(
+        file,
+        "8 5
+CGCCCCTCTCGGGGGTGTTCAGTAAACGGCCA
+GGGCGAGGTATGTGTAAGTGCCAAGGTGCCAG
+TAGTACCGAGACCGAAAGAAGTATACAGGCGT
+TAGATCAAGTTTCAGGTGCACGTCGGTGAACC
+AATCCACCAGCTCCACGTGCAATGTTGGCCTA"
+    )?;
+
+    let mut cmd = Command::cargo_bin("ba2f")?;
+    cmd.arg(file.path());
+    cmd.assert().success();
+
+    let best_score = score(&[
+        "TCTCGGGG".into(),
+        "CCAAGGTG".into(),
+        "TACAGGCG".into(),
+        "TTCAGGTG".into(),
+        "TCCACGTG".into(),
+    ]);
+
+    let motifs: Vec<String> = String::from_utf8_lossy(&cmd.assert().get_output().stdout)
+        .lines()
+        .map(String::from)
+        .collect();
+    let new_score = score(&motifs);
+
+    assert!(new_score <= best_score + 1);
 
     Ok(())
 }

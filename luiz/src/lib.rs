@@ -181,3 +181,20 @@ pub fn score(motifs: &[String]) -> u64 {
         .map(|kmer| hamming(&common_kmer, kmer) as u64)
         .sum()
 }
+
+pub fn profile_matrix_with_pseudocounts(motifs: &[String], k: usize) -> Matrix {
+    let mut matrix: Matrix = vec![vec![0.0; k]; 4];
+
+    for i in 0..k {
+        for nt in 0..4 {
+            matrix[nt][i] = (motifs
+                .iter()
+                .filter(|motif| motif.as_bytes()[i] == pos_to_nt(nt))
+                .count() as f64
+                + 1.)
+                / (motifs.len() as f64 + 4.);
+        }
+    }
+
+    matrix
+}

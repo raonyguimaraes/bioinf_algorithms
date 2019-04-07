@@ -21,6 +21,7 @@ pub fn profile_matrix_with_pseudocounts(motifs: &[String], k: usize) -> Matrix {
 
     matrix
 }
+
 pub fn greedy_motif_search_with_pseudocounts(text: &[&str], k: usize) -> Vec<String> {
     let t = text.len();
 

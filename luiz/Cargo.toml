@@ -83,6 +83,11 @@ path = "src/ba2e.rs"
 test = false
 
 [[bin]]
+name = "ba2f"
+path = "src/ba2f.rs"
+test = false
+
+[[bin]]
 name = "ba3a"
 path = "src/ba3a.rs"
 test = false
@@ -108,3 +113,4 @@ predicates = "1.0.0"
 tempfile = "3.0.7"
 
 [dependencies]
+rand = "0.6.5"
