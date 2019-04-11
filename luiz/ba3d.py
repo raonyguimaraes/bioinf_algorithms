@@ -1,7 +1,5 @@
 #! /usr/bin/env python
 
-from collections import defaultdict
-
 from ba3c import overlap
 from ba3a import composition
 
@@ -9,9 +7,12 @@ from ba3a import composition
 def de_bruijn(k, text):
     kmers = list(composition(k - 1, text))
 
-    dbg = defaultdict(set)
+    dbg = {}
 
     for kmer, neighbor in overlap(kmers):
+        if kmer not in dbg:
+            dbg[kmer] = set()
+
         dbg[kmer].add(neighbor)
 
     return dbg

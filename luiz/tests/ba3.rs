@@ -24,7 +24,14 @@ fn ba3a_test() -> Result<(), Box<std::error::Error>> {
 #[test]
 fn ba3b_test() -> Result<(), Box<std::error::Error>> {
     let mut file = NamedTempFile::new()?;
-    writeln!(file, "ACCGA\nCCGAA\nCGAAG\nGAAGC\nAAGCT")?;
+    writeln!(
+        file,
+        "ACCGA
+CCGAA
+CGAAG
+GAAGC
+AAGCT"
+    )?;
 
     let mut cmd = Command::cargo_bin("ba3b")?;
     cmd.arg(file.path());
@@ -36,7 +43,14 @@ fn ba3b_test() -> Result<(), Box<std::error::Error>> {
 #[test]
 fn ba3c_test() -> Result<(), Box<std::error::Error>> {
     let mut file = NamedTempFile::new()?;
-    writeln!(file, "ATGCG\nGCATG\nCATGC\nAGGCA\nGGCAT")?;
+    writeln!(
+        file,
+        "ATGCG
+GCATG
+CATGC
+AGGCA
+GGCAT"
+    )?;
 
     let mut cmd = Command::cargo_bin("ba3c")?;
     cmd.arg(file.path());

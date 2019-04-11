@@ -5,6 +5,11 @@ use std::str;
 /* Mirror the product(repeat=n) iter from Python itertools
     https://github.com/python/cpython/blob/234531b4462b20d668762bd78406fd2ebab129c9/Modules/itertoolsmodule.c#L2095
     https://dev.to/naufraghi/procedural-macro-in-rust-101-k3f
+
+    this macro also looks useful:
+    https://stackoverflow.com/questions/45786955/how-to-compose-functions-in-rust/45792463#45792463
+    use composeTwo -> productTwo?
+
 pub fn product<I, T>(iter: I, repeat: usize) -> Vec<T>
 where
     I: Iterator<Item = T>,
